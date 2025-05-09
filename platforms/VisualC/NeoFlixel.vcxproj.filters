@@ -36,5 +36,11 @@
     <ClCompile Include="..\..\source\states\PlayState.cpp">
       <Filter>Source Files\template\states</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\flixel\FlxSprite.cpp">
+      <Filter>Source Files\flixel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\FlxState.cpp">
+      <Filter>Source Files\flixel</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

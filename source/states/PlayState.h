@@ -1,6 +1,7 @@
 #pragma once
 
 #include "flixel/FlxState.h"
+#include "flixel/FlxSprite.h"
 
 class PlayState : public flixel::FlxState {
 public:
@@ -11,4 +12,7 @@ public:
     void update(float elapsed) override;
     void draw() override;
     void destroy() override;
+
+private:
+    flixel::FlxSprite* player = nullptr;
 }; 

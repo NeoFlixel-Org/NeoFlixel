@@ -67,16 +67,18 @@ void FlxGame::run() {
 }
 
 void FlxGame::update(float elapsed) {
-    if (!currentState) {
-        return;
-    }
-
     if (nextState) {
         if (currentState) {
+            currentState->destroy();
             delete currentState;
         }
         currentState = nextState;
         nextState = nullptr;
+        currentState->create();
+    }
+
+    if (!currentState) {
+        return;
     }
 
     currentState->update(elapsed);
