@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\flixel\FlxBasic.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxG.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxGame.cpp" />
+    <ClCompile Include="..\..\source\flixel\FlxObject.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxSprite.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxState.cpp" />
+    <ClCompile Include="..\..\source\flixel\text\FlxText.cpp" />
     <ClCompile Include="..\..\source\main.cpp" />
     <ClCompile Include="..\..\source\states\PlayState.cpp" />
   </ItemGroup>
@@ -110,7 +113,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\external;$(ProjectDir)..\..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -128,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\external;$(ProjectDir)..\..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "FlxBasic.h"
-#include <vector>
-#include <memory>
 
 namespace flixel {
 

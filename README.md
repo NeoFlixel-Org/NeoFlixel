@@ -6,7 +6,10 @@
 
 * NeoFlixel is a huge work in progress, things may break.
 
-# What's done
+# What's done (going based off of the stuff I mainly use)
 
 * FlxSprites 
 * FlxStates
+* FlxText
+* FlxCamera
+* FlxColor

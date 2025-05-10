@@ -18,3 +18,9 @@ sprite->centerOffsets(); // center da hitbox relative to the sprite
 
 sprite->centerOrigin(); // center da rotation origin
 ```
+
+## Adding the sprite
+
+```cpp
+add(sprite); // adds the sprite to the state, duhh
+```

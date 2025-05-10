@@ -22,6 +22,15 @@
     <Filter Include="Source Files\template\states">
       <UniqueIdentifier>{4a054b27-c084-4030-a903-4cf2e64bafe3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\flixel\text">
+      <UniqueIdentifier>{956dbe86-c621-4602-95d7-81168de582e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\flixel\util">
+      <UniqueIdentifier>{8095ecd9-bc0f-46e4-90ba-99823cdc6bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\flixel\math">
+      <UniqueIdentifier>{c52a7ed9-7d1b-4d97-8db9-966873009954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\flixel\FlxG.cpp">
@@ -40,6 +49,15 @@
       <Filter>Source Files\flixel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\flixel\FlxState.cpp">
+      <Filter>Source Files\flixel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\text\FlxText.cpp">
+      <Filter>Source Files\flixel\text</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\FlxObject.cpp">
+      <Filter>Source Files\flixel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\FlxBasic.cpp">
       <Filter>Source Files\flixel</Filter>
     </ClCompile>
   </ItemGroup>

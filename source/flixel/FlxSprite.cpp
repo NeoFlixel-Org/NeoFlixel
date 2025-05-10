@@ -3,9 +3,9 @@
 
 namespace flixel {
 
-FlxSprite::FlxSprite(float x, float y) {
-    this->x = x;
-    this->y = y;
+FlxSprite::FlxSprite(float x, float y) 
+    : FlxObject(x, y, 0, 0)
+{
 }
 
 FlxSprite::~FlxSprite() {
@@ -21,6 +21,8 @@ void FlxSprite::loadGraphic(const std::string& path) {
     
     width = static_cast<float>(sourceRect.w);
     height = static_cast<float>(sourceRect.h);
+    frameWidth = sourceRect.w;
+    frameHeight = sourceRect.h;
     centerOrigin();
 }
 
@@ -37,6 +39,8 @@ void FlxSprite::loadGraphic(SDL_Texture* newTexture) {
     
     width = static_cast<float>(sourceRect.w);
     height = static_cast<float>(sourceRect.h);
+    frameWidth = sourceRect.w;
+    frameHeight = sourceRect.h;
     centerOrigin();
 }
 
@@ -85,7 +89,11 @@ void FlxSprite::draw() {
     destRect.w = static_cast<int>(sourceRect.w * scaleX);
     destRect.h = static_cast<int>(sourceRect.h * scaleY);
 
-    SDL_SetTextureColorMod(texture, color.r, color.g, color.b);
+    Uint8 r = static_cast<Uint8>((color >> 16) & 0xFF);
+    Uint8 g = static_cast<Uint8>((color >> 8) & 0xFF);
+    Uint8 b = static_cast<Uint8>(color & 0xFF);
+    SDL_SetTextureColorMod(texture, r, g, b);
+
     SDL_SetTextureAlphaMod(texture, static_cast<Uint8>(alpha * 255));
 
     SDL_RenderCopyEx(
@@ -104,6 +112,7 @@ void FlxSprite::destroy() {
         SDL_DestroyTexture(texture);
         texture = nullptr;
     }
+    FlxObject::destroy();
 }
 
 }

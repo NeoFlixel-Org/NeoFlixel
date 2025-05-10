@@ -1,11 +1,11 @@
 #pragma once
 
-#include "FlxBasic.h"
+#include "FlxObject.h"
 #include <SDL2/SDL.h>
 
 namespace flixel {
 
-class FlxSprite : public FlxBasic {
+class FlxSprite : public FlxObject {
 public:
     FlxSprite(float x = 0, float y = 0);
     virtual ~FlxSprite();
@@ -18,13 +18,12 @@ public:
     float getScaleX() const { return scaleX; }
     float getScaleY() const { return scaleY; }
 
-    void updateHitbox();
+    virtual void updateHitbox() override;
     void centerOffsets(bool adjustPosition = false);
     void centerOrigin();
 
-    void draw() override;
-
-    void destroy() override;
+    virtual void draw() override;
+    virtual void destroy() override;
 
     float width = 0;
     float height = 0;
@@ -32,6 +31,8 @@ public:
     float offsetY = 0;
     float originX = 0;
     float originY = 0;
+    int frameWidth = 0;
+    int frameHeight = 0;
 
 protected:
     SDL_Texture* texture = nullptr;
@@ -39,6 +40,7 @@ protected:
     SDL_Rect destRect = {0, 0, 0, 0};
     float scaleX = 1.0f;
     float scaleY = 1.0f;
+    Uint32 color = 0xFFFFFFFF;
 };
 
 }

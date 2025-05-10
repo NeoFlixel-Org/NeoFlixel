@@ -6,6 +6,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include "../imports.h"
+#include "math/FlxRect.h"
+#include "FlxCamera.h"
 
 namespace flixel {
 
@@ -30,6 +32,10 @@ public:
     static float elapsed;
     static float maxElapsed;
     
+    static math::FlxRect worldBounds;
+    
+    static FlxCamera* camera;
+    
     static void init(FlxGame* gameInstance, int gameWidth, int gameHeight);
     static void reset();
     
@@ -47,4 +53,8 @@ private:
     static bool initialized;
 };
 
+inline int FlxG::width = 0;
+inline int FlxG::height = 0;
+inline math::FlxRect FlxG::worldBounds = math::FlxRect();
+inline FlxCamera* FlxG::camera = nullptr;
 }

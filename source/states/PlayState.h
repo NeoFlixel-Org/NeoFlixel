@@ -2,6 +2,7 @@
 
 #include "flixel/FlxState.h"
 #include "flixel/FlxSprite.h"
+#include "flixel/text/FlxText.h"
 
 class PlayState : public flixel::FlxState {
 public:
@@ -15,4 +16,5 @@ public:
 
 private:
     flixel::FlxSprite* player = nullptr;
+    flixel::FlxText* positionText = nullptr;
 }; 

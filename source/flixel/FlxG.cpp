@@ -9,11 +9,6 @@ bool FlxG::fixedTimestep = true;
 float FlxG::timeScale = 1.0f;
 float FlxG::animationTimeScale = 1.0f;
 
-int FlxG::width = 0;
-int FlxG::height = 0;
-int FlxG::initialWidth = 0;
-int FlxG::initialHeight = 0;
-
 FlxGame* FlxG::game = nullptr;
 SDL_Window* FlxG::window = nullptr;
 SDL_Renderer* FlxG::renderer = nullptr;
@@ -22,6 +17,9 @@ float FlxG::elapsed = 0.0f;
 float FlxG::maxElapsed = 0.1f;
 
 bool FlxG::initialized = false;
+
+int FlxG::initialWidth = 0;
+int FlxG::initialHeight = 0;
 
 void FlxG::init(FlxGame* gameInstance, int gameWidth, int gameHeight) {
     if (initialized) {
