@@ -20,6 +20,7 @@ void PlayState::create() {
     player->frames = frames;
     player->animation = new flixel::animation::FlxAnimationController();
     player->animation->addByPrefix("idle", frames->getFramesByPrefix("BF idle dance"), 24, true);
+    player->animation->addByPrefix("hey", frames->getFramesByPrefix("BF HEY!!"), 24, true);
     player->animation->play("idle");
     add(player);
     
@@ -66,7 +67,7 @@ void PlayState::update(float elapsed) {
     }
 
     if (flixel::FlxG::keys.justPressed().count(SDL_SCANCODE_SPACE)) {
-        player->animation->play("yay");
+        player->animation->play("hey");
     }
     if (flixel::FlxG::keys.justReleased().count(SDL_SCANCODE_RETURN)) {
         player->animation->play("idle");
