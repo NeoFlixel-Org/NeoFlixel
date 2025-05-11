@@ -8,7 +8,7 @@
 
 # What's done (going based off of the stuff I mainly use)
 
-* FlxSprites 
+* FlxSprites (with spritesheet and xml animation support!)
 * FlxStates
 * FlxText
 * FlxCamera

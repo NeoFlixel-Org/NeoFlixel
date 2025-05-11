@@ -2,6 +2,8 @@
 
 #include "FlxObject.h"
 #include <SDL2/SDL.h>
+#include "flixel/graphics/frames/FlxAtlasFrames.h"
+#include "flixel/animation/FlxAnimationController.h"
 
 namespace flixel {
 
@@ -33,6 +35,9 @@ public:
     float originY = 0;
     int frameWidth = 0;
     int frameHeight = 0;
+
+    flixel::graphics::frames::FlxAtlasFrames* frames = nullptr;
+    flixel::animation::FlxAnimationController* animation = nullptr;
 
 protected:
     SDL_Texture* texture = nullptr;

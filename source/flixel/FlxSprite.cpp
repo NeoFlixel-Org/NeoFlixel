@@ -106,10 +106,18 @@ void FlxSprite::centerOrigin() {
 void FlxSprite::draw() {
     if (!texture || !visible) return;
 
+    SDL_Rect srcRect = sourceRect;
+    if (frames && animation) {
+        int frameIdx = animation->getCurrentFrame();
+        if (frameIdx >= 0 && frameIdx < frames->frames.size()) {
+            srcRect = frames->frames[frameIdx].rect;
+        }
+    }
+
     destRect.x = static_cast<int>(x + offsetX);
     destRect.y = static_cast<int>(y + offsetY);
-    destRect.w = static_cast<int>(sourceRect.w * scaleX);
-    destRect.h = static_cast<int>(sourceRect.h * scaleY);
+    destRect.w = static_cast<int>(srcRect.w * scaleX);
+    destRect.h = static_cast<int>(srcRect.h * scaleY);
 
     Uint8 r = static_cast<Uint8>((color >> 16) & 0xFF);
     Uint8 g = static_cast<Uint8>((color >> 8) & 0xFF);
@@ -121,7 +129,7 @@ void FlxSprite::draw() {
     SDL_RenderCopyEx(
         FlxG::renderer,
         texture,
-        &sourceRect,
+        &srcRect,
         &destRect,
         angle,
         nullptr,

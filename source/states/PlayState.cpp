@@ -1,16 +1,26 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 #include "PlayState.h"
 #include "flixel/FlxG.h"
+#include "flixel/graphics/frames/FlxAtlasFrames.h"
+#include "flixel/animation/FlxAnimationController.h"
 
 void PlayState::create() {
     std::cout << "PlayState: Create Function Called!" << std::endl;
     
+    std::ifstream file("assets/images/BOYFRIEND.xml");
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string xmlText = buffer.str();
+    auto frames = flixel::graphics::frames::FlxAtlasFrames::fromSparrow("assets/images/BOYFRIEND.png", xmlText);
     player = new flixel::FlxSprite(100, 100);
-    player->loadGraphic("assets/mario.png");
-    player->setScale(0.2f, 0.2f);
-    player->updateHitbox();
+    player->loadGraphic("assets/images/BOYFRIEND.png");
+    player->frames = frames;
+    player->animation = new flixel::animation::FlxAnimationController();
+    player->animation->addByPrefix("idle", frames->getFramesByPrefix("BF idle dance"), 24, true);
+    player->animation->play("idle");
     add(player);
     
     positionText = new flixel::FlxText(0, 0, 300, "Position: (0, 0)", 16);
@@ -56,10 +66,14 @@ void PlayState::update(float elapsed) {
     }
 
     if (flixel::FlxG::keys.justPressed().count(SDL_SCANCODE_SPACE)) {
-        flixel::FlxG::log.notice("Space was just pressed!");
+        player->animation->play("yay");
     }
     if (flixel::FlxG::keys.justReleased().count(SDL_SCANCODE_RETURN)) {
-        flixel::FlxG::log.notice("Return was just released!");
+        player->animation->play("idle");
+    }
+
+    if (player->animation) {
+        player->animation->update(elapsed);
     }
 
     if (positionText) {
@@ -79,6 +93,7 @@ void PlayState::draw() {
 void PlayState::destroy() {
     if (player) {
         remove(player, true);
+        delete player->animation;
         player = nullptr;
     }
     

@@ -34,6 +34,18 @@
     <Filter Include="Source Files\flixel\sound">
       <UniqueIdentifier>{fc5ff032-934d-4919-ae44-b88e434d3c9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\flixel\animation">
+      <UniqueIdentifier>{d643dd94-792b-4a1d-b4dc-58c98626a2e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\flixel\graphics">
+      <UniqueIdentifier>{99432a32-5a71-4016-adc5-803a48a2c92c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\flixel\graphics\frames">
+      <UniqueIdentifier>{1144aedb-f4c7-4b89-897f-a66861e226f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\external">
+      <UniqueIdentifier>{b495878d-d2ef-4d9e-86ab-a3c30959f250}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\flixel\FlxG.cpp">
@@ -68,6 +80,15 @@
     </ClCompile>
     <ClCompile Include="..\..\source\flixel\sound\FlxSoundGroup.cpp">
       <Filter>Source Files\flixel\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\animation\FlxAnimationController.cpp">
+      <Filter>Source Files\flixel\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\graphics\frames\FlxAtlasFrames.cpp">
+      <Filter>Source Files\flixel\graphics\frames</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinyxml2.cpp">
+      <Filter>Source Files\external</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
