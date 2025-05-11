@@ -13,7 +13,18 @@ FlxSprite::~FlxSprite() {
 }
 
 void FlxSprite::loadGraphic(const std::string& path) {
-    texture = FlxG::loadTexture(path);
+    try {
+        texture = FlxG::loadTexture(path);
+    } catch (const std::exception&) {
+        try {
+            texture = FlxG::loadTexture("assets/images/logo/default.png");
+            FlxG::log.warn("Sprite not found: " + path + ", loaded fallback image instead.");
+        } catch (const std::exception& e) {
+            FlxG::log.error("Failed to load both sprite and fallback image: " + std::string(e.what()));
+            texture = nullptr;
+            return;
+        }
+    }
     
     SDL_QueryTexture(texture, nullptr, nullptr, &sourceRect.w, &sourceRect.h);
     destRect.w = sourceRect.w;
@@ -31,7 +42,18 @@ void FlxSprite::loadGraphic(SDL_Texture* newTexture) {
         SDL_DestroyTexture(texture);
     }
     
-    texture = newTexture;
+    if (newTexture) {
+        texture = newTexture;
+    } else {
+        try {
+            texture = FlxG::loadTexture("assets/images/logo/default.png");
+            FlxG::log.warn("Null texture provided, loaded fallback image instead.");
+        } catch (const std::exception& e) {
+            FlxG::log.error("Failed to load fallback image: " + std::string(e.what()));
+            texture = nullptr;
+            return;
+        }
+    }
     
     SDL_QueryTexture(texture, nullptr, nullptr, &sourceRect.w, &sourceRect.h);
     destRect.w = sourceRect.w;

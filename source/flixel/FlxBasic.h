@@ -23,9 +23,8 @@ public:
     virtual void update(float elapsed);
     virtual void draw();
     virtual void destroy();
-
-    void kill();
-    void revive();
+    virtual void kill();
+    virtual void revive();
 
     bool active;
     bool exists;

@@ -13,3 +13,5 @@
 * FlxText
 * FlxCamera
 * FlxColor
+* FlxMath
+* FlxSound

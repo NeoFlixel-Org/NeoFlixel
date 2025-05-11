@@ -3,7 +3,7 @@
 ## Creating and Loading a sprite
 
 ```cpp
-FlxSprite* sprite = new FlxSprite(100, 100); // x and y pos
+flixel::FlxSprite* sprite = new flixel::FlxSprite(100, 100); // x and y pos
 sprite->loadGraphic("assets/player.png"); // loading the .png asset
 ```
 

@@ -1,7 +1,8 @@
-#include "PlayState.h"
-#include "flixel/FlxG.h"
+#include <string>
 #include <sstream>
 #include <iomanip>
+#include "PlayState.h"
+#include "flixel/FlxG.h"
 
 void PlayState::create() {
     std::cout << "PlayState: Create Function Called!" << std::endl;
@@ -21,6 +22,17 @@ void PlayState::create() {
     positionText->updateHitbox();
     positionText->screenCenter();
     add(positionText);
+
+    bgMusic = new flixel::FlxSound();
+    if (bgMusic->loadStream("assets/music/freakyMenu.ogg", true, true)) {
+        bgMusic->setVolume(0.3f);
+        add(bgMusic);
+        bgMusic->play();
+    } else {
+        flixel::FlxG::log.warn("Could not load background music");
+        delete bgMusic;
+        bgMusic = nullptr;
+    }
 }
 
 void PlayState::update(float elapsed) {
@@ -31,15 +43,18 @@ void PlayState::update(float elapsed) {
     
     if (state[SDL_SCANCODE_LEFT]) {
         player->x -= speed;
+        flixel::FlxG::sound.muted = true;
     }
     if (state[SDL_SCANCODE_RIGHT]) {
         player->x += speed;
+        flixel::FlxG::sound.muted = false;
     }
     if (state[SDL_SCANCODE_UP]) {
         player->y -= speed;
     }
     if (state[SDL_SCANCODE_DOWN]) {
         player->y += speed;
+        flixel::FlxG::sound.stopAll();
     }
     
     if (positionText) {
@@ -65,6 +80,11 @@ void PlayState::destroy() {
     if (positionText) {
         remove(positionText, true);
         positionText = nullptr;
+    }
+
+    if (bgMusic) {
+        remove(bgMusic, true);
+        bgMusic = nullptr;
     }
     
     FlxState::destroy();

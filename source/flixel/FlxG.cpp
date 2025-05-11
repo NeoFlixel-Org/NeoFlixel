@@ -1,6 +1,9 @@
 #include "FlxG.h"
 #include "FlxGame.h"
+#include "sound/FlxSound.h"
+#include "sound/FlxSoundGroup.h"
 #include <stdexcept>
+#include <iostream>
 
 namespace flixel {
 
@@ -12,14 +15,170 @@ float FlxG::animationTimeScale = 1.0f;
 FlxGame* FlxG::game = nullptr;
 SDL_Window* FlxG::window = nullptr;
 SDL_Renderer* FlxG::renderer = nullptr;
+FlxCamera* FlxG::camera = nullptr;
 
 float FlxG::elapsed = 0.0f;
 float FlxG::maxElapsed = 0.1f;
 
 bool FlxG::initialized = false;
 
+int FlxG::width = 0;
+int FlxG::height = 0;
 int FlxG::initialWidth = 0;
 int FlxG::initialHeight = 0;
+
+FlxG::WorldBounds FlxG::worldBounds = {0, 0, 0, 0};
+FlxG::SoundFrontEnd FlxG::sound;
+FlxG::Log FlxG::log;
+
+SDL_Cursor* FlxG::customCursor = nullptr;
+SDL_Surface* FlxG::cursorSurface = nullptr;
+bool FlxG::cursorVisible = true;
+
+void FlxG::Log::error(const std::string& message) {
+    std::cerr << "[ERROR] " << message << std::endl;
+}
+
+void FlxG::Log::warn(const std::string& message) {
+    std::cerr << "[WARN] " << message << std::endl;
+}
+
+void FlxG::Log::notice(const std::string& message) {
+    std::cout << "[NOTICE] " << message << std::endl;
+}
+
+FlxG::SoundFrontEnd::SoundFrontEnd() : volume(1.0f), muted(false) {
+    reset();
+}
+
+FlxG::SoundFrontEnd::~SoundFrontEnd() {
+    destroy();
+}
+
+void FlxG::SoundFrontEnd::destroy() {
+    stopAll();
+    sounds.clear();
+    groups.clear();
+}
+
+void FlxG::SoundFrontEnd::update(float elapsed) {
+    for (auto& sound : sounds) {
+        if (sound->active) {
+            sound->update(elapsed);
+        }
+    }
+
+    sounds.erase(
+        std::remove_if(sounds.begin(), sounds.end(),
+            [](const std::unique_ptr<FlxSound>& sound) {
+                return !sound->exists;
+            }),
+        sounds.end()
+    );
+}
+
+void FlxG::SoundFrontEnd::reset() {
+    volume = 1.0f;
+    muted = false;
+    stopAll();
+    sounds.clear();
+    groups.clear();
+    defaultGroup = "default";
+    addGroup(defaultGroup);
+}
+
+FlxSound* FlxG::SoundFrontEnd::load(const std::string& path, bool looped, bool autoDestroy) {
+    auto sound = std::make_unique<FlxSound>();
+    if (sound->loadEmbedded(path, looped, autoDestroy)) {
+        sounds.push_back(std::move(sound));
+        return sounds.back().get();
+    }
+    return nullptr;
+}
+
+FlxSound* FlxG::SoundFrontEnd::play(const std::string& path, float volume, bool looped, bool autoDestroy) {
+    FlxSound* sound = load(path, looped, autoDestroy);
+    if (sound) {
+        sound->setVolume(volume);
+        sound->play();
+    }
+    return sound;
+}
+
+void FlxG::SoundFrontEnd::stop(const std::string& path) {
+    for (auto& sound : sounds) {
+        if (sound->exists && sound->name == path) {
+            sound->stop();
+        }
+    }
+}
+
+void FlxG::SoundFrontEnd::pause(const std::string& path) {
+    for (auto& sound : sounds) {
+        if (sound->exists && sound->name == path) {
+            sound->pause();
+        }
+    }
+}
+
+void FlxG::SoundFrontEnd::resume(const std::string& path) {
+    for (auto& sound : sounds) {
+        if (sound->exists && sound->name == path) {
+            sound->resume();
+        }
+    }
+}
+
+void FlxG::SoundFrontEnd::stopAll() {
+    for (auto& sound : sounds) {
+        if (sound->exists) {
+            sound->stop();
+        }
+    }
+    Mix_HaltMusic();
+    Mix_HaltChannel(-1);
+}
+
+void FlxG::SoundFrontEnd::pauseAll() {
+    for (auto& sound : sounds) {
+        if (sound->exists) {
+            sound->pause();
+        }
+    }
+}
+
+void FlxG::SoundFrontEnd::resumeAll() {
+    for (auto& sound : sounds) {
+        if (sound->exists) {
+            sound->resume();
+        }
+    }
+}
+
+FlxSoundGroup* FlxG::SoundFrontEnd::addGroup(const std::string& name, float volume) {
+    auto group = std::make_unique<FlxSoundGroup>(name, volume);
+    groups.push_back(std::move(group));
+    return groups.back().get();
+}
+
+FlxSoundGroup* FlxG::SoundFrontEnd::getGroup(const std::string& name) {
+    for (auto& group : groups) {
+        if (group->name == name) {
+            return group.get();
+        }
+    }
+    return nullptr;
+}
+
+void FlxG::SoundFrontEnd::removeGroup(const std::string& name) {
+    groups.erase(
+        std::remove_if(groups.begin(), groups.end(),
+            [&name](const std::unique_ptr<FlxSoundGroup>& group) {
+                return group->name == name;
+            }),
+        groups.end()
+    );
+}
 
 void FlxG::init(FlxGame* gameInstance, int gameWidth, int gameHeight) {
     if (initialized) {
@@ -41,9 +200,16 @@ void FlxG::init(FlxGame* gameInstance, int gameWidth, int gameHeight) {
         throw std::runtime_error("Failed to initialize SDL_image: " + std::string(IMG_GetError()));
     }
 
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+    int mixFlags = MIX_INIT_OGG | MIX_INIT_MP3;
+    if ((Mix_Init(mixFlags) & mixFlags) != mixFlags) {
         throw std::runtime_error("Failed to initialize SDL_mixer: " + std::string(Mix_GetError()));
     }
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        throw std::runtime_error("Failed to open audio device: " + std::string(Mix_GetError()));
+    }
+
+    Mix_AllocateChannels(32);
 
     if (TTF_Init() < 0) {
         throw std::runtime_error("Failed to initialize SDL_ttf: " + std::string(TTF_GetError()));
@@ -67,6 +233,18 @@ void FlxG::init(FlxGame* gameInstance, int gameWidth, int gameHeight) {
         throw std::runtime_error("Failed to create renderer: " + std::string(SDL_GetError()));
     }
 
+    try {
+        setCursor("assets/images/ui/cursor.png", 0, 0);
+    }
+    catch (const std::exception& e) {
+        log.warn("Failed to load default cursor: " + std::string(e.what()));
+        setDefaultCursor();
+    }
+
+    worldBounds = {0, 0, static_cast<float>(width), static_cast<float>(height)};
+
+    sound.reset();
+
     initialized = true;
 }
 
@@ -77,6 +255,7 @@ void FlxG::reset() {
     animationTimeScale = 1.0f;
     elapsed = 0.0f;
     maxElapsed = 0.1f;
+    sound.reset();
 }
 
 void FlxG::resizeGame(int newWidth, int newHeight) {
@@ -128,10 +307,76 @@ TTF_Font* FlxG::loadFont(const std::string& path, int size) {
     return font;
 }
 
+void FlxG::setCursor(const std::string& path, int hotX, int hotY) {
+    if (customCursor) {
+        SDL_FreeCursor(customCursor);
+        customCursor = nullptr;
+    }
+    if (cursorSurface) {
+        SDL_FreeSurface(cursorSurface);
+        cursorSurface = nullptr;
+    }
+
+    cursorSurface = IMG_Load(path.c_str());
+    if (!cursorSurface) {
+        log.error("Failed to load cursor image: " + std::string(IMG_GetError()));
+        setDefaultCursor();
+        return;
+    }
+
+    customCursor = SDL_CreateColorCursor(cursorSurface, hotX, hotY);
+    if (!customCursor) {
+        log.error("Failed to create cursor: " + std::string(SDL_GetError()));
+        SDL_FreeSurface(cursorSurface);
+        cursorSurface = nullptr;
+        setDefaultCursor();
+        return;
+    }
+
+    SDL_SetCursor(customCursor);
+    cursorVisible = true;
+}
+
+void FlxG::setDefaultCursor() {
+    if (customCursor) {
+        SDL_FreeCursor(customCursor);
+        customCursor = nullptr;
+    }
+    if (cursorSurface) {
+        SDL_FreeSurface(cursorSurface);
+        cursorSurface = nullptr;
+    }
+    SDL_SetCursor(SDL_GetDefaultCursor());
+}
+
+void FlxG::showCursor(bool show) {
+    SDL_ShowCursor(show ? SDL_ENABLE : SDL_DISABLE);
+    cursorVisible = show;
+}
+
+void FlxG::setCursorVisible(bool visible) {
+    showCursor(visible);
+}
+
+bool FlxG::isCursorVisible() {
+    return cursorVisible;
+}
+
 void FlxG::destroy() {
     if (!initialized) {
         return;
     }
+
+    if (customCursor) {
+        SDL_FreeCursor(customCursor);
+        customCursor = nullptr;
+    }
+    if (cursorSurface) {
+        SDL_FreeSurface(cursorSurface);
+        cursorSurface = nullptr;
+    }
+
+    sound.destroy();
 
     if (renderer) {
         SDL_DestroyRenderer(renderer);
@@ -144,11 +389,11 @@ void FlxG::destroy() {
     }
 
     TTF_Quit();
+    Mix_CloseAudio();
     Mix_Quit();
     IMG_Quit();
     SDL_Quit();
 
     initialized = false;
 }
-
 }

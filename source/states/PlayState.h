@@ -1,8 +1,10 @@
 #pragma once
 
+#include <string>
 #include "flixel/FlxState.h"
 #include "flixel/FlxSprite.h"
 #include "flixel/text/FlxText.h"
+#include "flixel/sound/FlxSound.h"
 
 class PlayState : public flixel::FlxState {
 public:
@@ -17,4 +19,5 @@ public:
 private:
     flixel::FlxSprite* player = nullptr;
     flixel::FlxText* positionText = nullptr;
-}; 
+    flixel::FlxSound* bgMusic = nullptr;
+};

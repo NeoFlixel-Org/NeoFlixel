@@ -31,6 +31,9 @@
     <Filter Include="Source Files\flixel\math">
       <UniqueIdentifier>{c52a7ed9-7d1b-4d97-8db9-966873009954}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\flixel\sound">
+      <UniqueIdentifier>{fc5ff032-934d-4919-ae44-b88e434d3c9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\flixel\FlxG.cpp">
@@ -59,6 +62,12 @@
     </ClCompile>
     <ClCompile Include="..\..\source\flixel\FlxBasic.cpp">
       <Filter>Source Files\flixel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\sound\FlxSound.cpp">
+      <Filter>Source Files\flixel\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\sound\FlxSoundGroup.cpp">
+      <Filter>Source Files\flixel\sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
