@@ -12,6 +12,7 @@
 #include <memory>
 #include "sound/FlxSound.h"
 #include "sound/FlxSoundGroup.h"
+#include "input/FlxKeyboard.h"
 
 namespace flixel {
 
@@ -147,6 +148,8 @@ public:
     static void showCursor(bool show);
     static void setCursorVisible(bool visible);
     static bool isCursorVisible();
+
+    static flixel::input::FlxKeyboard keys;
 
 private:
     static SDL_Cursor* customCursor;

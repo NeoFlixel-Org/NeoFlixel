@@ -15,3 +15,6 @@
 * FlxColor
 * FlxMath
 * FlxSound
+* FlxG
+* FlxGame
+* FlxG.keys (justPressed, pressed, and justReleased)

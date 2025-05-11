@@ -35,6 +35,8 @@ SDL_Cursor* FlxG::customCursor = nullptr;
 SDL_Surface* FlxG::cursorSurface = nullptr;
 bool FlxG::cursorVisible = true;
 
+flixel::input::FlxKeyboard flixel::FlxG::keys;
+
 void FlxG::Log::error(const std::string& message) {
     std::cerr << "[ERROR] " << message << std::endl;
 }

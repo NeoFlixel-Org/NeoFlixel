@@ -48,6 +48,8 @@ void FlxGame::run() {
 
         handleEvents();
 
+        flixel::FlxG::keys.update();
+
         if (FlxG::fixedTimestep) {
             accumulator += deltaTime * 1000.0f;
             if (accumulator > maxAccumulation) {
@@ -129,6 +131,8 @@ void FlxGame::setDrawFramerate(int fps) {
 void FlxGame::handleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        flixel::FlxG::keys.onEvent(event);
+
         switch (event.type) {
             case SDL_QUIT:
                 running = false;

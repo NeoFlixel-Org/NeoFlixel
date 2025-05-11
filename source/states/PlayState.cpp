@@ -37,26 +37,31 @@ void PlayState::create() {
 
 void PlayState::update(float elapsed) {
     FlxState::update(elapsed);
-    
-    const Uint8* state = SDL_GetKeyboardState(nullptr);
     float speed = 200.0f * elapsed;
-    
-    if (state[SDL_SCANCODE_LEFT]) {
+
+    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_LEFT)) {
         player->x -= speed;
         flixel::FlxG::sound.muted = true;
     }
-    if (state[SDL_SCANCODE_RIGHT]) {
+    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_RIGHT)) {
         player->x += speed;
         flixel::FlxG::sound.muted = false;
     }
-    if (state[SDL_SCANCODE_UP]) {
+    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_UP)) {
         player->y -= speed;
     }
-    if (state[SDL_SCANCODE_DOWN]) {
+    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_DOWN)) {
         player->y += speed;
         flixel::FlxG::sound.stopAll();
     }
-    
+
+    if (flixel::FlxG::keys.justPressed().count(SDL_SCANCODE_SPACE)) {
+        flixel::FlxG::log.notice("Space was just pressed!");
+    }
+    if (flixel::FlxG::keys.justReleased().count(SDL_SCANCODE_RETURN)) {
+        flixel::FlxG::log.notice("Return was just released!");
+    }
+
     if (positionText) {
         std::stringstream ss;
         ss << "Position: (" << std::fixed << std::setprecision(1) 
