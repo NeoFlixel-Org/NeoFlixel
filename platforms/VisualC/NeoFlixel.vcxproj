@@ -22,17 +22,20 @@
     <ClCompile Include="..\..\external\tinyxml2.cpp" />
     <ClCompile Include="..\..\source\flixel\animation\FlxAnimationController.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxBasic.cpp" />
+    <ClCompile Include="..\..\source\flixel\FlxCamera.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxG.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxGame.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxObject.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxSprite.cpp" />
     <ClCompile Include="..\..\source\flixel\FlxState.cpp" />
+    <ClCompile Include="..\..\source\flixel\FlxSubState.cpp" />
     <ClCompile Include="..\..\source\flixel\graphics\frames\FlxAtlasFrames.cpp" />
     <ClCompile Include="..\..\source\flixel\sound\FlxSound.cpp" />
     <ClCompile Include="..\..\source\flixel\sound\FlxSoundGroup.cpp" />
     <ClCompile Include="..\..\source\flixel\text\FlxText.cpp" />
     <ClCompile Include="..\..\source\main.cpp" />
     <ClCompile Include="..\..\source\states\PlayState.cpp" />
+    <ClCompile Include="..\..\source\substates\TestSubState.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

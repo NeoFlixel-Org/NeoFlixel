@@ -73,7 +73,7 @@ public:
     void destroy() override;
     void update(float elapsed) override;
     void updateScroll();
-    void bindScrollPos(flixel::FlxPoint& scrollPos);
+    void bindScrollPos(FlxPoint& scrollPos);
     void updateFollow();
     void updateLerp(float elapsed);
     void updateFlash(float elapsed);
@@ -87,7 +87,7 @@ public:
 
     void follow(flixel::FlxObject* target, FlxCameraFollowStyle style = FlxCameraFollowStyle::LOCKON, float lerp = 1.0f);
     void snapToTarget();
-    void focusOn(const flixel::FlxPoint& point);
+    void focusOn(const FlxPoint& point);
     void flash(flixel::util::FlxColor color = flixel::util::FlxColor::WHITE, float duration = 1.0f, std::function<void()> onComplete = nullptr, bool force = false);
     void fade(flixel::util::FlxColor color = flixel::util::FlxColor::BLACK, float duration = 1.0f, bool fadeIn = false, std::function<void()> onComplete = nullptr, bool force = false);
     void shake(float intensity = 0.05f, float duration = 0.5f, std::function<void()> onComplete = nullptr, bool force = true, flixel::util::FlxAxes axes = flixel::util::FlxAxes::XY);
@@ -96,7 +96,7 @@ public:
     void stopShake();
     void stopFX();
     FlxCamera& copyFrom(const FlxCamera& camera);
-    void fill(flixel::util::FlxColor color, bool blendAlpha = true, float fxAlpha = 1.0f);
+    void fill(util::FlxColor color, bool blendAlpha = true, float fxAlpha = 1.0f);
     void drawFX();
     void checkResize();
     void setSize(int width, int height);
@@ -106,7 +106,7 @@ public:
     void setScale(float x, float y);
     void onResize();
     flixel::math::FlxRect getViewMarginRect(flixel::math::FlxRect* rect = nullptr);
-    bool containsPoint(const flixel::FlxPoint& point, float width = 0.0f, float height = 0.0f);
+    bool containsPoint(const FlxPoint& point, float width, float height);
     bool containsRect(const flixel::math::FlxRect& rect);
 
     float getViewMarginLeft() const { return viewMarginX; }
@@ -157,5 +157,4 @@ private:
     void calcMarginY();
     void completeFade();
 };
-
 }

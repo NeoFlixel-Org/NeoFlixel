@@ -47,5 +47,4 @@ protected:
     float scaleY = 1.0f;
     Uint32 color = 0xFFFFFFFF;
 };
-
 }

@@ -52,5 +52,4 @@ protected:
     void handleEvents();
     void calculateElapsed();
 };
-
 }

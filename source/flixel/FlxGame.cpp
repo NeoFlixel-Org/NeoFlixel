@@ -170,5 +170,4 @@ void FlxGame::setTitle(const std::string& title) {
         SDL_SetWindowTitle(FlxG::window, title.c_str());
     }
 }
-
 }

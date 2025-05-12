@@ -1,8 +1,12 @@
 #pragma once
 
 #include "FlxBasic.h"
+#include "FlxCamera.h"
+#include <vector>
 
 namespace flixel {
+
+class FlxSubState;
 
 class FlxState {
 public:
@@ -18,8 +22,12 @@ public:
     void remove(FlxBasic* object, bool destroy = true);
     void clear(bool destroy = true);
 
+    void openSubState(FlxSubState* substate);
+    void closeSubState();
+    FlxSubState* subState = nullptr;
+
 protected:
     std::vector<FlxBasic*> members;
+    std::vector<FlxCamera*> cameras;
 };
-
 }

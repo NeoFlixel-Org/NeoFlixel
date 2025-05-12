@@ -238,5 +238,4 @@ void FlxObject::revive() {}
 void FlxObject::setHitbox(float, float, float, float) {}
 void FlxObject::centerOrigin() {}
 void FlxObject::screenCenter(flixel::util::FlxAxes) {}
-
 } 

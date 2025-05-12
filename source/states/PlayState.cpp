@@ -47,43 +47,57 @@ void PlayState::create() {
 }
 
 void PlayState::update(float elapsed) {
+    auto* currentSubState = subState;
+    
     FlxState::update(elapsed);
-    float speed = 200.0f * elapsed;
+    
+    if (currentSubState && !subState) {
+        return;
+    }
+    
+    if (!subState) {
+        float speed = 200.0f * elapsed;
 
-    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_LEFT)) {
-        player->x -= speed;
-        flixel::FlxG::sound.muted = true;
-    }
-    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_RIGHT)) {
-        player->x += speed;
-        flixel::FlxG::sound.muted = false;
-    }
-    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_UP)) {
-        player->y -= speed;
-    }
-    if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_DOWN)) {
-        player->y += speed;
-        flixel::FlxG::sound.stopAll();
-    }
+        if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_LEFT)) {
+            player->x -= speed;
+            flixel::FlxG::sound.muted = true;
+        }
+        if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_RIGHT)) {
+            player->x += speed;
+            flixel::FlxG::sound.muted = false;
+        }
+        if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_UP)) {
+            player->y -= speed;
+        }
+        if (flixel::FlxG::keys.pressed().count(SDL_SCANCODE_DOWN)) {
+            player->y += speed;
+            flixel::FlxG::sound.stopAll();
+        }
 
-    if (flixel::FlxG::keys.justPressed().count(SDL_SCANCODE_SPACE)) {
-        player->animation->play("hey");
-    }
-    if (flixel::FlxG::keys.justReleased().count(SDL_SCANCODE_RETURN)) {
-        player->animation->play("idle");
-    }
+        if (flixel::FlxG::keys.justPressed().count(SDL_SCANCODE_SPACE)) {
+            player->animation->play("hey");
+        }
 
-    if (player->animation) {
-        player->animation->update(elapsed);
-    }
+        if (flixel::FlxG::keys.justPressed().count(SDL_SCANCODE_RETURN)) {
+            openSubState(new TestSubState());
+        }
 
-    if (positionText) {
-        std::stringstream ss;
-        ss << "Position: (" << std::fixed << std::setprecision(1) 
-           << player->x << ", " << player->y << ")";
-        positionText->setText(ss.str());
-        positionText->updateHitbox();
-        positionText->screenCenter();
+        if (flixel::FlxG::keys.justPressed().count(SDL_SCANCODE_R)) {
+            player->animation->play("idle");
+        }
+
+        if (player->animation) {
+            player->animation->update(elapsed);
+        }
+
+        if (positionText) {
+            std::stringstream ss;
+            ss << "Position: (" << std::fixed << std::setprecision(1) 
+               << player->x << ", " << player->y << ")";
+            positionText->setText(ss.str());
+            positionText->updateHitbox();
+            positionText->screenCenter();
+        }
     }
 }
 

@@ -46,6 +46,9 @@
     <Filter Include="Source Files\external">
       <UniqueIdentifier>{b495878d-d2ef-4d9e-86ab-a3c30959f250}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\template\substates">
+      <UniqueIdentifier>{33ff7c62-11c1-4ca5-802a-7b5fcb70c773}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\flixel\FlxG.cpp">
@@ -89,6 +92,15 @@
     </ClCompile>
     <ClCompile Include="..\..\external\tinyxml2.cpp">
       <Filter>Source Files\external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\FlxSubState.cpp">
+      <Filter>Source Files\flixel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\flixel\FlxCamera.cpp">
+      <Filter>Source Files\flixel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\substates\TestSubState.cpp">
+      <Filter>Source Files\template\substates</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

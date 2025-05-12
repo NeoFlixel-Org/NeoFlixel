@@ -144,5 +144,4 @@ void FlxSprite::destroy() {
     }
     FlxObject::destroy();
 }
-
 }

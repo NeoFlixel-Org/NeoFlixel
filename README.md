@@ -18,3 +18,4 @@
 * FlxG
 * FlxGame
 * FlxG.keys (justPressed, pressed, and justReleased)
+* FlxSubStates

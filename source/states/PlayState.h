@@ -5,6 +5,7 @@
 #include "flixel/FlxSprite.h"
 #include "flixel/text/FlxText.h"
 #include "flixel/sound/FlxSound.h"
+#include "../substates/TestSubState.h"
 
 class PlayState : public flixel::FlxState {
 public:

@@ -124,5 +124,4 @@ inline bool operator>(FlxDirectionFlags a, FlxDirectionFlags b) {
 inline bool hasAny(FlxDirectionFlags flags, FlxDirectionFlags check) {
     return (flags & check) != FlxDirectionFlags::NONE;
 }
-
 } 
