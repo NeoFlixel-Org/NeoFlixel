@@ -16,7 +16,8 @@ public:
     void play(const std::string& name);
     void update(float elapsed);
     int getCurrentFrame() const;
+    
+    std::string getName() const { return current; }
 };
-
 }
 }
